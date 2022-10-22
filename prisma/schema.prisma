@@ -26,6 +26,7 @@ model Post {
   published Boolean? @default(false)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?
+  comments Comment[]
 }
 
 model Comment {
@@ -33,5 +34,7 @@ model Comment {
   content String
   author    User?    @relation(fields: [authorId], references: [id])
   authorId String?
+  post Post @relation(fields: [postId], references: [id])
+  postId String
 
 }
