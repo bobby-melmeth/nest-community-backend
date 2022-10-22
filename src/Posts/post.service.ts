@@ -32,6 +32,9 @@ export class PostService {
       cursor,
       where,
       orderBy,
+      include: {
+        comments: true,
+      },
     });
   }
 
