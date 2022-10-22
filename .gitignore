@@ -55,4 +55,4 @@ experimental/**/*.db
 .vscode/
 .nuxt
 dev.db
-*.env*
+.env
