@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { User, User as UserModel } from '@prisma/client';
+import { Validate } from 'class-validator';
+import { CreateUserDto } from 'src/User/UserDto/CreateUser.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -10,10 +20,9 @@ export class UserController {
   async findMe(@Param('id') id: string): Promise<User> {
     return this.userService.user({ id });
   }
-  @Post('user')
-  async signupUser(
-    @Body() userData: { name?: string; email: string },
-  ): Promise<UserModel> {
+  @Post()
+  @UsePipes(ValidationPipe)
+  async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
     return this.userService.createUser(userData);
   }
 }

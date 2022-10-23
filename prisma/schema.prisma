@@ -16,7 +16,7 @@ model User {
   email String  @unique
   name  String?
   posts Post[]
-  comments Comment[]
+
 }
 
 model Post {
@@ -32,7 +32,6 @@ model Post {
 model Comment {
   id  String @default(uuid()) @id
   content String
-  author    User?    @relation(fields: [authorId], references: [id])
   authorId String?
   post Post @relation(fields: [postId], references: [id])
   postId String

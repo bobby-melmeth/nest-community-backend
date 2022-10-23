@@ -11,7 +11,7 @@ export class CommentController {
     @Body()
     commentData: {
       content: string;
-      author?: Prisma.UserCreateNestedOneWithoutCommentsInput;
+      author?: Prisma.PostCreateNestedOneWithoutCommentsInput;
       post: Prisma.PostCreateNestedOneWithoutCommentsInput;
     },
   ): Promise<Comment> {

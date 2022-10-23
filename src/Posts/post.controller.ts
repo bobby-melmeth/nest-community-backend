@@ -9,18 +9,21 @@ import {
   Post,
   Put,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { Post as PostModel } from '@prisma/client';
+import { CreatePostDto } from 'src/Posts/PostsDto/CreatePost.dto';
 
 @Controller('post')
 export class PostsController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
-  async createPost(
-    @Body() postData: { content: string; title: string },
-  ): Promise<PostModel> {
+  @HttpCode(200)
+  @UsePipes(ValidationPipe)
+  async createPost(@Body() postData: CreatePostDto): Promise<PostModel> {
     return this.postService.createPost(postData);
   }
   @Get()
