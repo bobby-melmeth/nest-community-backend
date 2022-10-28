@@ -6,15 +6,15 @@ import { CommentService } from './comment.service';
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post()
-  async createComment(
-    @Body()
-    commentData: {
-      content: string;
-      author?: Prisma.PostCreateNestedOneWithoutCommentsInput;
-      post: Prisma.PostCreateNestedOneWithoutCommentsInput;
-    },
-  ): Promise<Comment> {
-    return this.commentService.createComment(commentData);
-  }
+  // @Post()
+  // async createComment(
+  //   @Body()
+  //   commentData: {
+  //     content: string;
+  //     author?: Prisma.PostCreateNestedOneWithoutCommentsInput;
+  //     post: Prisma.PostCreateNestedOneWithoutCommentsInput;
+  //   },
+  // ): Promise<Comment> {
+  //   return this.commentService.createComment(commentData);
+  // }
 }

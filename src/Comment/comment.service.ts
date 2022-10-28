@@ -1,6 +1,6 @@
 import { Injectable, Post } from '@nestjs/common';
 import { Comment, Prisma } from '@prisma/client';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class CommentService {
