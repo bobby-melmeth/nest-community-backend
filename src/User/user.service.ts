@@ -18,6 +18,9 @@ export class UserService {
         lastName: true,
         mobile: true,
         posts: true,
+        comments: true,
+        address: true,
+        likes: true,
       },
     });
     return user;
