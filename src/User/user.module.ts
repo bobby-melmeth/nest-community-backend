@@ -4,6 +4,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { PostService } from 'src/Posts/post.service';
+import { TagsService } from 'src/tags/tags.service';
 
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
@@ -14,6 +15,7 @@ import { UserService } from './user.service';
   providers: [
     UserService,
     PostService,
+    TagsService,
     PrismaService,
     JwtStrategy,
     AuthService,

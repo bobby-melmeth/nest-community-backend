@@ -1,5 +1,11 @@
-import { User } from '@prisma/client';
-import { IsNotEmpty, IsUUID, Length } from 'class-validator';
+import { Tag, User } from '@prisma/client';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsUUID,
+  Length,
+} from 'class-validator';
 
 export class CreatePostDto {
   @IsNotEmpty({ message: 'Post must have a title' })
@@ -8,8 +14,5 @@ export class CreatePostDto {
   @IsNotEmpty({ message: 'Post must have content' })
   @Length(1, 255, { message: 'content must be between 1 and 255 characters' })
   content: string;
-
-  userId: String;
-
-  authorId: string;
+  userId: string;
 }

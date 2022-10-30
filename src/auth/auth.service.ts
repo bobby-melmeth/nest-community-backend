@@ -62,14 +62,14 @@ export class AuthService {
       email: foundUser.email,
       id: foundUser.id,
     });
-
+    console.log('token', jwtToken);
     if (!jwtToken) {
       throw new ForbiddenException();
     }
 
     res.cookie('token', jwtToken);
 
-    return res.send({ message: 'Logged in Successfully' });
+    return res.send({ message: 'Logged in Successfully', token: jwtToken });
   }
   async signOut(req: Request, res: Response) {
     res.clearCookie('token');

@@ -3,26 +3,37 @@ import {
   Controller,
   Delete,
   Get,
-  Header,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   Req,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { PostService } from './post.service';
+import { jwtUser } from 'src/Decorators/jwtUser.Decorator';
+
 import { Post as PostModel } from '@prisma/client';
 import { CreatePostDto } from 'src/Posts/PostsDto/CreatePost.dto';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { ParamPipe } from 'src/Pipes/param.pipe';
+import { UserService } from 'src/User/user.service';
 
 @Controller('post')
 export class PostsController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private userService: UserService,
+  ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(200)
-  async createPost(@Body() postData: CreatePostDto): Promise<PostModel> {
+  async createPost(@Body() postData: CreatePostDto) {
     return this.postService.createPost(postData);
   }
   @Get()
@@ -34,10 +45,26 @@ export class PostsController {
   async getPost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.getPostById({ id: String(id) });
   }
+
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async deletePost(@Param('id') id: string): Promise<PostModel> {
+  async deletePost(
+    @jwtUser() jwtUser,
+    @Param('id', new ParamPipe('postId')) id: string,
+  ) {
+    const isPostOwned = await this.postService.isPostOwnedByUser(
+      jwtUser.id,
+      id,
+    );
+    if (isPostOwned === false) {
+      throw new HttpException(
+        'This is not your post to delete!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.postService.deletePost({ id: String(id) });
   }
+
   @Put(':id')
   async updatePost(
     @Param('id') id: string,

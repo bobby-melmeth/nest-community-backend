@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { Comment, Prisma } from '@prisma/client';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './CommentDto/createComment.dto';
+import { DeleteCommentDto } from './CommentDto/DeleteComment.dto';
 
 @Controller('comment')
 export class CommentController {
@@ -13,5 +14,14 @@ export class CommentController {
     commentDto: CreateCommentDto,
   ): Promise<Comment> {
     return this.commentService.createComment(commentDto);
+  }
+
+  @Delete(':id')
+  async deleteComment(
+    @Param('id') id: string,
+    @Body()
+    deleteCommentDto: DeleteCommentDto,
+  ) {
+    return this.commentService.deleteComment(deleteCommentDto);
   }
 }

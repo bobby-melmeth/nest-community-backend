@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 
 import { Post, Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { TagsService } from 'src/tags/tags.service';
 
 @Injectable()
 export class PostService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private tagService: TagsService) {}
 
   async getPostById(
     postWhereUniqueInput: Prisma.PostWhereUniqueInput,
@@ -38,10 +39,15 @@ export class PostService {
     });
   }
 
-  async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-    return this.prisma.post.create({
-      data,
+  async createPost(createPostDto: Prisma.PostCreateInput): Promise<Post> {
+    const post = await this.prisma.post.create({
+      data: {
+        title: createPostDto.title,
+        userId: createPostDto.userId,
+        content: createPostDto.content,
+      },
     });
+    return post;
   }
 
   async updatePost(params: {
@@ -55,9 +61,23 @@ export class PostService {
     });
   }
 
-  async deletePost(where: Prisma.PostWhereUniqueInput): Promise<Post> {
+  async deletePost(data: Prisma.PostWhereUniqueInput): Promise<Post> {
     return this.prisma.post.delete({
-      where,
+      where: {
+        id: data.id,
+      },
     });
+  }
+  async isPostOwnedByUser(jwtUserId: string, postId: string) {
+    const postOwner = await this.prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (postOwner.userId !== jwtUserId) {
+      return false;
+    }
+    return true;
   }
 }
