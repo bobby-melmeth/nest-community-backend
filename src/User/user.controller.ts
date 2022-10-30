@@ -22,10 +22,15 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
+  async getUser(@Param('id') id: string): Promise<Partial<User>> {
+    return this.userService.user(id);
+  }
+
+  @Get('me')
   async findMe(
     @jwtUser() jwtUser,
     @Param('id') id: string,
   ): Promise<Partial<User>> {
-    return this.userService.user(id);
+    return this.userService.user(jwtUser.id);
   }
 }

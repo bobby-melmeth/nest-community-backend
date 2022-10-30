@@ -30,7 +30,9 @@ model Post {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments  Comment[]
   likes     Like[]
-  tags      Tag[]
+  tags      String[]
+  Tag       Tag?      @relation(fields: [tagId], references: [id])
+  tagId     String?
 }
 
 model Comment {

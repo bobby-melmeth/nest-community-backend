@@ -25,12 +25,12 @@ export class TagsController {
 
   @Get()
   findAll() {
-    return this.tagsService.findAll();
+    return this.tagsService.getAllTags({});
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tagsService.findOne(+id);
+    return this.tagsService.findOne(id);
   }
 
   @Patch(':id')

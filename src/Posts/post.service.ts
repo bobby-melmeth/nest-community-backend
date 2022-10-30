@@ -40,11 +40,18 @@ export class PostService {
   }
 
   async createPost(createPostDto: Prisma.PostCreateInput): Promise<Post> {
+    const createdTags = await this.tagService.createMultipleTags(
+      createPostDto.tags,
+    );
+
     const post = await this.prisma.post.create({
       data: {
         title: createPostDto.title,
         userId: createPostDto.userId,
         content: createPostDto.content,
+        tags: {
+          connect: createdTags,
+        },
       },
     });
     return post;

@@ -22,6 +22,7 @@ import { CreatePostDto } from 'src/Posts/PostsDto/CreatePost.dto';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ParamPipe } from 'src/Pipes/param.pipe';
 import { UserService } from 'src/User/user.service';
+import { TagsService } from 'src/tags/tags.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('post')
@@ -29,6 +30,7 @@ export class PostsController {
   constructor(
     private readonly postService: PostService,
     private userService: UserService,
+    private tagsService: TagsService,
   ) {}
 
   @UseGuards(JwtAuthGuard)

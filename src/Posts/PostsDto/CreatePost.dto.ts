@@ -15,4 +15,5 @@ export class CreatePostDto {
   @Length(1, 255, { message: 'content must be between 1 and 255 characters' })
   content: string;
   userId: string;
+  tags?: Tag[];
 }
