@@ -30,11 +30,18 @@ export class AuthService {
           lastName,
           mobile,
           password: hashedPassword,
+          address: {
+            create: {
+              country: address.country,
+              postCode: address.postCode,
+              state: address.state,
+              suburb: address.suburb,
+            },
+          },
         },
       });
       return 'User successfully signed up!';
     } catch (error) {
-      console.log('bigerror', error);
       throw new HttpException(
         'Registration Failed, Please try again..!!',
         HttpStatus.BAD_REQUEST,
