@@ -9,10 +9,33 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   const config = new DocumentBuilder()
-    .setTitle('NBM')
-    .setDescription("The NBM API's")
+    .setTitle('NBM Api')
+    .setDescription('NBM endpoints')
     .setVersion('1.0')
-    .addTag('NBM')
+    .addBearerAuth(
+      {
+        description:
+          'The JWT token is required to access the some of the endpoints.',
+        type: 'http',
+        in: 'header',
+        name: 'Authorization',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'Authorization',
+    )
+    .addBearerAuth(
+      {
+        description:
+          'The JWT token is required to access the some of the endpoints.',
+        type: 'http',
+        in: 'header',
+        name: 'Authorization',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'AuthorizationJwtVerificationCode',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
