@@ -28,4 +28,15 @@ export class CommentService {
     });
     return { message: 'Comment deleted' };
   }
+  async isCommentOwnedByUser(jwtUserId: string, commentId: string) {
+    const commentOwner = await this.prisma.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+    if (commentOwner.userId !== jwtUserId) {
+      return false;
+    }
+    return true;
+  }
 }

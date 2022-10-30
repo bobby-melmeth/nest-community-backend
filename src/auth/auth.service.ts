@@ -23,7 +23,7 @@ export class AuthService {
         signUpDto;
 
       const hashedPassword = await this.hashPassword(password);
-      await this.prisma.user.create({
+      const user = await this.prisma.user.create({
         data: {
           email,
           firstName,
@@ -42,6 +42,7 @@ export class AuthService {
       });
       return 'User successfully signed up!';
     } catch (error) {
+      console.log(error);
       throw new HttpException(
         'Registration Failed, Please try again..!!',
         HttpStatus.BAD_REQUEST,

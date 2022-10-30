@@ -15,6 +15,7 @@ export class PostService {
       where: postWhereUniqueInput,
       include: {
         comments: true,
+        likes: true,
       },
     });
   }
