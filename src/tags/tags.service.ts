@@ -9,26 +9,20 @@ export class TagsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createTagDto: CreateTagDto) {
-    const foundTag = this.prisma.tag.findUnique({
-      where: {
-        title: createTagDto.title,
-      },
-    });
-    if (!foundTag)
-      try {
-        const tag = await this.prisma.tag.upsert({
-          where: {
-            title: createTagDto.title,
-          },
-          create: {
-            title: createTagDto.title,
-          },
-          update: {},
-        });
-        return tag;
-      } catch (error) {
-        throw new HttpException('Failed to create tag', HttpStatus.BAD_REQUEST);
-      }
+    try {
+      const tag = await this.prisma.tag.upsert({
+        where: {
+          title: createTagDto.title,
+        },
+        create: {
+          title: createTagDto.title,
+        },
+        update: {},
+      });
+      return tag;
+    } catch (error) {
+      throw new HttpException('Failed to create tag', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async createMultipleTags(tagList: Tag[]) {
