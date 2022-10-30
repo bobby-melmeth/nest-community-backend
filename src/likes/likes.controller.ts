@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { CreateLikeDto } from './dto/create-like.dto';
@@ -14,7 +15,9 @@ import { ParamPipe } from 'src/Pipes/param.pipe';
 import { DeleteLikeDto } from './dto/DeleteLike.dto';
 import { jwtUser } from 'src/Decorators/jwtUser.Decorator';
 import { PrismaService } from 'prisma/prisma.service';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('likes')
 export class LikesController {
   constructor(

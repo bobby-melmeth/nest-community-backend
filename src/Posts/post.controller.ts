@@ -23,6 +23,7 @@ import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ParamPipe } from 'src/Pipes/param.pipe';
 import { UserService } from 'src/User/user.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('post')
 export class PostsController {
   constructor(
